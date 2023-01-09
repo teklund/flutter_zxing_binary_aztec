@@ -96,6 +96,37 @@ extern "C"
     }
 
     FUNCTION_ATTRIBUTE
+    BitMatrix Aztec_binary(char* data, int width, int height)
+    {
+        Aztec::EncodeResult code = Aztec::Encoder::Encode_binary(data, Aztec::Encoder::DEFAULT_EC_PERCENT, Aztec::Encoder::DEFAULT_AZTEC_LAYERS);
+        return Inflate(std::move(code.matrix),width,height,0); 
+    }
+
+    FUNCTION_ATTRIBUTE
+    struct EncodeResult encodeBarcode_binary(char* contents, int width, int height, int format, int margin, int eccLevel)
+    { 
+        long long start = get_now();
+
+        struct EncodeResult result = {0, contents, Format(format), nullptr, 0, nullptr};
+        try
+        {
+            BitMatrix bitMatrix = Aztec_binary(contents, width, height);
+            result.data = ToMatrix<uint8_t>(bitMatrix).data();
+            result.length = bitMatrix.width() * bitMatrix.height();
+            result.isValid = true;    
+        }
+        catch (const exception &e)
+        {
+            platform_log("Can't encode text: %s\nError: %s\n", contents, e.what());
+            result.error = new char[strlen(e.what()) + 1];
+            strcpy(result.error, e.what());
+        }
+
+        int evalInMillis = static_cast<int>(get_now() - start);
+        return result;
+    }
+
+    FUNCTION_ATTRIBUTE
     struct EncodeResult encodeBarcode(char *contents, int width, int height, int format, int margin, int eccLevel)
     {
         long long start = get_now();

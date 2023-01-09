@@ -108,6 +108,18 @@ extern "C"
      * @param eccLevel The error correction level of the barcode. Used for Aztec, PDF417, and QRCode only, [0-8].
      * @return The barcode data
      */
+    struct EncodeResult encodeBarcode_binary(char *contents, int width, int height, int format, int margin, int eccLevel);
+
+    /**
+     * @brief Encode a string into a barcode
+     * @param contents The string to encode
+     * @param width The width of the barcode in pixels.
+     * @param height The height of the barcode in pixels.
+     * @param format The format of the barcode
+     * @param margin The margin of the barcode
+     * @param eccLevel The error correction level of the barcode. Used for Aztec, PDF417, and QRCode only, [0-8].
+     * @return The barcode data
+     */
     struct EncodeResult encodeBarcode(char *contents, int width, int height, int format, int margin, int eccLevel);
 
     // Private functions
