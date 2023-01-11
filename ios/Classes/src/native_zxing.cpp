@@ -4,6 +4,7 @@
 #include "TextUtfEncoding.h"
 #include "BitMatrix.h"
 #include "native_zxing.h"
+#include "core/src/aztec/AZHighLevelEncoder.h"
 
 #include <locale>
 #include <codecvt>
@@ -98,7 +99,7 @@ extern "C"
     FUNCTION_ATTRIBUTE
     BitMatrix Aztec_binary(char* data, int width, int height)
     {
-        Aztec::EncodeResult code = Aztec::Encoder::Encode_binary(data, Aztec::Encoder::DEFAULT_EC_PERCENT, Aztec::Encoder::DEFAULT_AZTEC_LAYERS);
+        EncodeResult code = Aztec::Encoder::Encode_binary(data, Aztec::Encoder::DEFAULT_EC_PERCENT, Aztec::Encoder::DEFAULT_AZTEC_LAYERS);
         return Inflate(std::move(code.matrix),width,height,0); 
     }
 
@@ -107,11 +108,11 @@ extern "C"
     { 
         long long start = get_now();
 
-        struct EncodeResult result = {0, contents, Format(format), nullptr, 0, nullptr};
+        struct EncodeResult result = {0, contents, format, nullptr, 0, nullptr};
         try
         {
             BitMatrix bitMatrix = Aztec_binary(contents, width, height);
-            result.data = ToMatrix<uint8_t>(bitMatrix).data();
+            result.data = ToMatrix<int8_t>(bitMatrix).data();
             result.length = bitMatrix.width() * bitMatrix.height();
             result.isValid = true;    
         }
@@ -123,6 +124,7 @@ extern "C"
         }
 
         int evalInMillis = static_cast<int>(get_now() - start);
+        platform_log("Encode Barcode in: %d ms\n", evalInMillis);
         return result;
     }
 

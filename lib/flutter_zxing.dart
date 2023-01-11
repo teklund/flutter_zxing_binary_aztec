@@ -26,6 +26,11 @@ abstract class Zxing {
     required EncodeParams params,
   });
 
+  Encode encodeBarcodeBinary({
+    required String contents,
+    required EncodeParams params,
+  });
+
   /// Starts reading barcode from the camera
   Future<void> startCameraProcessing();
 

@@ -143,6 +143,39 @@ class GeneratedBindings {
   /// @param margin The margin of the barcode
   /// @param eccLevel The error correction level of the barcode. Used for Aztec, PDF417, and QRCode only, [0-8].
   /// @return The barcode data
+  EncodeResult encodeBarcodeBinary(
+    ffi.Pointer<ffi.Char> contents,
+    int width,
+    int height,
+    int format,
+    int margin,
+    int eccLevel,
+  ) {
+    return _encodeBarcodeBinary(
+      contents,
+      width,
+      height,
+      format,
+      margin,
+      eccLevel,
+    );
+  }
+
+  late final _encodeBarcodeBinaryPtr = _lookup<
+      ffi.NativeFunction<
+          EncodeResult Function(ffi.Pointer<ffi.Char>, ffi.Int, ffi.Int,
+              ffi.Int, ffi.Int, ffi.Int)>>('encodeBarcode_binary');
+  late final _encodeBarcodeBinary = _encodeBarcodeBinaryPtr.asFunction<
+      EncodeResult Function(ffi.Pointer<ffi.Char>, int, int, int, int, int)>();
+
+  /// @brief Encode a string into a barcode
+  /// @param contents The string to encode
+  /// @param width The width of the barcode in pixels.
+  /// @param height The height of the barcode in pixels.
+  /// @param format The format of the barcode
+  /// @param margin The margin of the barcode
+  /// @param eccLevel The error correction level of the barcode. Used for Aztec, PDF417, and QRCode only, [0-8].
+  /// @return The barcode data
   EncodeResult encodeBarcode(
     ffi.Pointer<ffi.Char> contents,
     int width,

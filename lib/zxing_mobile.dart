@@ -33,6 +33,13 @@ class ZxingMobile implements Zxing {
       zxingEncodeBarcode(contents: contents, params: params);
 
   @override
+  Encode encodeBarcodeBinary({
+    required String contents,
+    required EncodeParams params,
+  }) =>
+      zxingEncodeBarcodeBinary(contents: contents, params: params);
+
+  @override
   Future<void> startCameraProcessing() => zxingStartCameraProcessing();
 
   @override

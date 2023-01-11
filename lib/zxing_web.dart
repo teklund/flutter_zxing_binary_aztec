@@ -19,6 +19,13 @@ class ZxingWeb implements Zxing {
   String barcodeFormatName(int format) => 'Unsupported';
 
   @override
+  Encode encodeBarcodeBinary({
+    required String contents,
+    required EncodeParams params,
+  }) =>
+      throw UnimplementedError();
+
+  @override
   Encode encodeBarcode({
     required String contents,
     required EncodeParams params,

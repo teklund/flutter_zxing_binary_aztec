@@ -16,3 +16,20 @@ Encode zxingEncodeBarcode({
       )
       .toEncode();
 }
+
+// Encode a string into a barcode
+Encode zxingEncodeBarcodeBinary({
+  required String contents,
+  required EncodeParams params,
+}) {
+  return bindings
+      .encodeBarcodeBinary(
+        contents.toNativeUtf8().cast<Char>(),
+        params.width,
+        params.height,
+        params.format,
+        params.margin,
+        params.eccLevel.value,
+      )
+      .toEncode();
+}
